@@ -1,4 +1,4 @@
-# Todo APP
+# Todo App
 
 ## 1. Chức năng chính 🥰
 
