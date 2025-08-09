@@ -1,4 +1,4 @@
-# Kế Hoạch làm Todo APP
+# Todo APP
 
 ## 1. Chức năng chính 🥰
 
