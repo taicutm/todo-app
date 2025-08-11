@@ -49,7 +49,7 @@ public class Task {
 
     public void setIs_completed(boolean is_completed) {
         this.is_completed = is_completed;
-    }
+    }   
 
     public LocalDateTime getDueDate() {
         return dueDate;
