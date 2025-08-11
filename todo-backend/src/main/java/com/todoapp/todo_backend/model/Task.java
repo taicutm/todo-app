@@ -1,23 +1,44 @@
 package com.todoapp.todo_backend.model;
 
+import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.LocalDateTime;
-import java.util.Date;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import java.util.List;
 
 @Entity
 public class Task {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  private String title;
-  private String description;
-  private boolean is_completed;
+    @Column(nullable = false)
+    private String title;
+
+    private String description;
+
+    @Column(name = "is_completed")
+    private boolean isCompleted;
+
     private LocalDateTime dueDate;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id", nullable = false)
+    @JsonBackReference
+    private Account account;
+
+    @ManyToOne
+    @JoinColumn(name = "task_category_id")
+    @JsonBackReference
+    private TaskCategory taskCategory;
+
+    @OneToMany(mappedBy = "task")
+    @JsonManagedReference
+    private List<TaskTagMap> tagMaps;
+
+    @OneToMany(mappedBy = "task")
+    @JsonManagedReference
+    private List<TaskComment> comments;
 
     public Long getId() {
         return id;
@@ -43,13 +64,13 @@ public class Task {
         this.description = description;
     }
 
-    public boolean isIs_completed() {
-        return is_completed;
+    public boolean isCompleted() {
+        return isCompleted;
     }
 
-    public void setIs_completed(boolean is_completed) {
-        this.is_completed = is_completed;
-    }   
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
+    }
 
     public LocalDateTime getDueDate() {
         return dueDate;
@@ -59,16 +80,52 @@ public class Task {
         this.dueDate = dueDate;
     }
 
-    // Contrucstor
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public TaskCategory getTaskCategory() {
+        return taskCategory;
+    }
+
+    public void setTaskCategory(TaskCategory taskCategory) {
+        this.taskCategory = taskCategory;
+    }
+
+    public List<TaskTagMap> getTagMaps() {
+        return tagMaps;
+    }
+
+    public void setTagMaps(List<TaskTagMap> tagMaps) {
+        this.tagMaps = tagMaps;
+    }
+
+    public List<TaskComment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<TaskComment> comments) {
+        this.comments = comments;
+    }
+
     public Task() {
     }
 
-    public Task(Long id, String title, String description, boolean is_completed, LocalDateTime due_date) {
+    public Task(Long id, String title, String description, boolean isCompleted, LocalDateTime dueDate, Account account,
+            TaskCategory taskCategory, List<TaskTagMap> tagMaps, List<TaskComment> comments) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.is_completed = is_completed;
-        this.dueDate = due_date;
+        this.isCompleted = isCompleted;
+        this.dueDate = dueDate;
+        this.account = account;
+        this.taskCategory = taskCategory;
+        this.tagMaps = tagMaps;
+        this.comments = comments;
     }
 
     @Override
@@ -77,8 +134,12 @@ public class Task {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", is_completed=" + is_completed +
+                ", isCompleted=" + isCompleted +
                 ", dueDate=" + dueDate +
+                ", account=" + account +
+                ", taskCategory=" + taskCategory +
+                ", tagMaps=" + tagMaps +
+                ", comments=" + comments +
                 '}';
     }
 }
