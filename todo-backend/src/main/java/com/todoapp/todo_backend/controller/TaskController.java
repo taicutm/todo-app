@@ -26,7 +26,6 @@ public class TaskController {
         return taskService.getAllTasks();
     }
 
-
     @PostMapping("/get")
     public Task getTaskById(@RequestBody Map<String, Long> body) {
         if (body == null || !body.containsKey("id")) {
@@ -36,7 +35,6 @@ public class TaskController {
         return taskService.findById(id);
     }
 
-
     // Tạo hoặc cập nhật task (nếu có id thì là update)
     @PostMapping("/save")
     public Task saveTask(@RequestBody Task task) {
@@ -45,8 +43,7 @@ public class TaskController {
 
     // Xoá task theo id
     @PostMapping("/delete")
-    public void deleteTaskById(@RequestBody Map
-                               <String, Long> body) {
+    public void deleteTaskById(@RequestBody Map<String, Long> body) {
         Long id = body.get("id");
         if (id == null) {
             throw new IllegalArgumentException("ID không được cung cấp");
